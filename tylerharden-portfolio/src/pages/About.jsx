@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import SectionTitle from '../components/SectionTitle';
 
 const skillsList = [
   'Python',

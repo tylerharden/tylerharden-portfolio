@@ -3,7 +3,7 @@ import Timeline from '../components/Timeline';
 
 function Resume() {
   return (
-    <div className="">
+    <div className="container mx-auto px-6">
       <p className="mb-6">{resumeData.bio}</p>
       <h2 className="text-xl font-semibold mb-4">Experience</h2>
       <ul className="space-y-4">

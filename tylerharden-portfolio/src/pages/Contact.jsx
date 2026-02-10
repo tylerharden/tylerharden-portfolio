@@ -2,9 +2,8 @@ import React from 'react';
 
 const Contact = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-4xl font-bold mb-4">Contact Me</h1>
-      <form className="w-full max-w-lg">
+    <div className="flex flex-col items-center justify-center px-4 py-8">
+      <form className="w-full max-w-lg px-4 md:px-0">
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700" htmlFor="name">
             Name
