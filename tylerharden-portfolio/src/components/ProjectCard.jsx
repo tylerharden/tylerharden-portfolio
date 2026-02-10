@@ -12,7 +12,7 @@ const ProjectCard = ({ project, onClick }) => {
           onClick();
         }
       }}
-      className="relative h-full min-h-100 bg-white dark:bg-gray-900 rounded-2xl shadow-md overflow-hidden transition-transform transform hover:scale-105 cursor-pointer hover:transition duration-300 hover:-translate-y-1 hover:scale-105 transform"
+      className="relative h-full min-h-100 bg-white dark:bg-gray-900 rounded-2xl shadow-md overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-105"
       tabIndex={0}
       role="button"
       aria-label={`View details for ${project.title}`}

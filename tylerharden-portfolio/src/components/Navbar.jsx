@@ -55,7 +55,8 @@ function Navbar({ onScrollToSection }) {
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="container mx-auto flex justify-between items-center px-4">
+      {/* Container with mx-auto for centering - padding handled by parent px-6 */}
+      <div className="container mx-auto flex justify-between items-center">
         {/* Brand - using h1 semantically on home page would be better, but h3 is acceptable for logo */}
         <h3 className="text-xl font-bold">{'tylerharden.io'}</h3>
 
