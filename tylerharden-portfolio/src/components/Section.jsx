@@ -1,7 +1,8 @@
 const Section = ({ name, reference, children, card=false, fillWhite=false}) => {
     return (
-      <div className={`${fillWhite ? 'bg-white ' : ''}  px-6 pt-6`}>
-        {/* Card Container */}
+      // Section wrapper with responsive padding: smaller on mobile, larger on desktop
+      <div className={`${fillWhite ? 'bg-white ' : ''}  px-4 sm:px-6 md:px-8 pt-6`}>
+        {/* Card Container - optional background card styling */}
         <div ref={reference} className={`${card ? 'bg-white rounded-2xl shadow-md transition-all duration-700 ease-in-out container' : ''} `}>
           {/* Section Header */}
           <div className="pb-6">

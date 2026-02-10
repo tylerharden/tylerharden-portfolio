@@ -2,15 +2,26 @@ import React from 'react';
 
 const ProjectCard = ({ project, onClick }) => {
   return (
+    // Project card with hover effects and proper accessibility
+    // Uses min-height to ensure consistent card heights in grid layout
     <div 
       onClick={onClick}
-      className="relative h-full min-h-100 bg-white dark:bg-gray-900 rounded-2xl shadow-md overflow-hidden transition-transform transform hover:scale-105 cursor-pointer   hover: transition duration-300 hover:-translate-y-1 hover:scale-105 transform"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      className="relative h-full min-h-100 bg-white dark:bg-gray-900 rounded-2xl shadow-md overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-105"
+      tabIndex={0}
+      role="button"
+      aria-label={`View details for ${project.title}`}
     >
-      {/* Thumbnail */}
+      {/* Thumbnail - responsive image with object-fit to prevent distortion */}
       <div className="relative w-full">
         <img
           src={project.thumbnail}
-          alt={project.title}
+          alt={project.title || 'Project thumbnail'}
           className="w-full h-48 object-cover transition-all duration-700 ease-in-out"
         />
       </div>
