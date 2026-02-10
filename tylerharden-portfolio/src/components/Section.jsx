@@ -1,6 +1,6 @@
 const Section = ({ name, reference, children, card=false, fillWhite=false}) => {
     return (
-      <div className={`${fillWhite ? 'bg-white ' : ''}  px-6 pt-6`}>
+      <div className={`${fillWhite ? 'bg-white ' : ''}  px-6 pt-6 pb-12`}>
         {/* Card Container */}
         <div ref={reference} className={`${card ? 'bg-white rounded-2xl shadow-md transition-all duration-700 ease-in-out container' : ''} `}>
           {/* Section Header */}

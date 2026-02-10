@@ -15,8 +15,8 @@ function Music() {
   }, []);
 
   return (
-    <section className="">
-      <div className="mx-auto text-center space-y-16">
+    <section className="container mx-auto px-4">
+      <div className="text-center space-y-16">
 
         {/* Me Photo + About Text */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">
