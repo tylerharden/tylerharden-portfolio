@@ -40,7 +40,7 @@ function Music() {
         {/* YouTube Video + Live Carousel */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">
           {/* YouTube Video */}
-          <div className="w-full md:w-6/9">
+          <div className="w-full md:w-2/3">
             <div className="relative w-full aspect-[16/9]">
               <iframe
                 className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-md"
@@ -53,7 +53,7 @@ function Music() {
           </div>
 
           {/* Live Photo Carousel */}
-          <div className="w-full md:w-3/8 flex">
+          <div className="w-full md:w-1/3 flex">
             <div className="w-full flex justify-center items-center">
               <div className="w-full h-full aspect-square">
               <PhotoCarousel

@@ -1,6 +1,7 @@
 // SplashScreen.jsx
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Typewriter from 'typewriter-effect/dist/core';
 
 const SplashScreen = ({ onFinishSplashScreen }) => {
   const [showButton, setShowButton] = useState(false);
