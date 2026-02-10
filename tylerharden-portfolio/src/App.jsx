@@ -65,24 +65,29 @@ function App() {
   // }, [splashDone]);
 
   return (
-    <div className="App bg-gray-100 dark:bg-gray-900">
+    // Main app container with semantic structure and proper min-height for footer positioning
+    <div className="App bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col">
       {/* {!splashDone && (
         <SplashScreen onFinishSplashScreen={() => setSplashDone(true)} />
       )} */}
 
       {/* {splashDone && ( */}
         <>
-  
-          <Navbar
-            onScrollToSection={{
-              about: () => scrollToSection(aboutRef),
-              projects: () => scrollToSection(projectsRef),
-              contact: () => scrollToSection(contactRef),
-              resume: () => scrollToSection(resumeRef),
-              music: () => scrollToSection(musicRef),
-            }}
-          />
-          <div className="py-2"> 
+          {/* Header landmark for navigation */}
+          <header>
+            <Navbar
+              onScrollToSection={{
+                about: () => scrollToSection(aboutRef),
+                projects: () => scrollToSection(projectsRef),
+                contact: () => scrollToSection(contactRef),
+                resume: () => scrollToSection(resumeRef),
+                music: () => scrollToSection(musicRef),
+              }}
+            />
+          </header>
+          
+          {/* Main content area with flex-grow to push footer down */}
+          <main className="flex-1 py-2"> 
             <div ref={aboutRef} className="">
               <Home scrollToAbout={() => scrollToSection(aboutRef)} />
             </div>
@@ -102,10 +107,13 @@ function App() {
               <Music />
             </Section>  
 
-            <Section  name="Contact" reference={contactRef} fillWhite={true}>
-              <Contact />
-            </Section>  
-          </div>
+            {/* Footer landmark for contact section */}
+            <footer>
+              <Section  name="Contact" reference={contactRef} fillWhite={true}>
+                <Contact />
+              </Section>
+            </footer>
+          </main>
         </>
       {/* )} */}
     </div>
