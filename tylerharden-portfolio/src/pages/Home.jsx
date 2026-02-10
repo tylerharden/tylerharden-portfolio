@@ -2,14 +2,23 @@ import { useEffect } from 'react';
 
 const Home = ({ scrollToAbout }) => {
   useEffect(() => {
-    const typewriter = new Typewriter('#typewriter', {
-      loop: false,
-      delay: 75,
-    });
+    // Handle Typewriter with graceful fallback if CDN script fails to load
+    if (typeof window !== 'undefined' && window.Typewriter) {
+      const typewriter = new window.Typewriter('#typewriter', {
+        loop: false,
+        delay: 75,
+      });
 
-    typewriter
-      .typeString("Hi, I'm Tyler Harden.")
-      .start();
+      typewriter
+        .typeString("Hi, I'm Tyler Harden.")
+        .start();
+    } else {
+      // Fallback: just show the text immediately
+      const element = document.getElementById('typewriter');
+      if (element) {
+        element.textContent = "Hi, I'm Tyler Harden.";
+      }
+    }
   }, []);
 
   return (
