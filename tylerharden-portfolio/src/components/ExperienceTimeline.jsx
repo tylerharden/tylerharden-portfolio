@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 
 const keyFor = (item) => `${item.startDate}-${item.title}`;
 const STEM = 28;
+const RAISE = 12;
 
 const CardContent = ({ item, active }) => (
   <>
@@ -55,7 +56,7 @@ const ExperienceTimeline = ({ experience }) => {
     <div>
       {/* Desktop: horizontal line with year ticks, cards alternate above/below so
           neighbors never collide */}
-      <div className="hidden md:block relative pt-44 pb-44">
+      <div className="hidden md:block relative pt-48 pb-48">
         <div className="absolute left-0 right-0 top-1/2 h-px bg-neutral-200 dark:bg-neutral-800" />
 
         {years.map((year) => (
@@ -76,20 +77,36 @@ const ExperienceTimeline = ({ experience }) => {
           <div className="mt-1 text-xs font-medium text-blue-600 whitespace-nowrap">Present</div>
         </div>
 
-        {/* Chunks: a bar per role spanning its actual start-end range, instead of a
-            single point at its start date. Rendered directly against the axis
-            container (not nested in the per-item anchor below) so left/width
-            percentages are unambiguous. */}
-        {chronological.map((item) => {
+        {/* Chunks: a bracket per role - two legs dropping to its true start/end dates
+            on the axis, joined by a bar raised off the line (up for 'above' roles,
+            down for 'below' ones) so it doesn't just sit flush on the axis. Rendered
+            directly against the axis container (not nested in the per-item anchor
+            below) so left/width percentages are unambiguous. */}
+        {chronological.map((item, idx) => {
           const startPct = positionFor(item.startDate);
           const endPct = item.endDate ? positionFor(item.endDate) : 100;
           const widthPct = Math.max(endPct - startPct, 1);
+          const above = idx % 2 === 0;
           return (
-            <div
-              key={`bar-${keyFor(item)}`}
-              className="absolute top-1/2 h-2 rounded-full bg-blue-600 border-2 border-white dark:border-neutral-950 z-20 -translate-y-1/2"
-              style={{ left: `${startPct}%`, width: `${widthPct}%` }}
-            />
+            <div key={`chunk-${keyFor(item)}`}>
+              <div
+                className="absolute w-px bg-blue-600 z-20"
+                style={{ left: `${startPct}%`, top: '50%', height: RAISE, transform: `translateY(${above ? -RAISE : 0}px)` }}
+              />
+              <div
+                className="absolute w-px bg-blue-600 z-20"
+                style={{ left: `${endPct}%`, top: '50%', height: RAISE, transform: `translateY(${above ? -RAISE : 0}px)` }}
+              />
+              <div
+                className="absolute h-0.5 rounded-full bg-blue-600 z-20"
+                style={{
+                  left: `${startPct}%`,
+                  width: `${widthPct}%`,
+                  top: '50%',
+                  transform: `translateY(calc(-50% + ${above ? -RAISE : RAISE}px))`,
+                }}
+              />
+            </div>
           );
         })}
 
@@ -104,12 +121,17 @@ const ExperienceTimeline = ({ experience }) => {
 
           return (
             <div key={keyFor(item)} className="absolute top-1/2" style={{ left: `${mid}%` }}>
-              {/* Stem: a fixed height that never changes with hover state, so the card's
-                  near edge stays put and hovering it can never shift it out from under
-                  the cursor (which is what caused the flicker before). */}
+              {/* Stem: continues from the raised chunk bar up/down to the card. A fixed
+                  height that never changes with hover state, so the card's near edge
+                  stays put and hovering it can never shift it out from under the
+                  cursor (which is what caused the flicker before). */}
               <div
                 className={`absolute w-px bg-neutral-300 dark:bg-neutral-700 ${above ? 'bottom-0' : 'top-0'}`}
-                style={{ height: STEM, left: sideOffset, transform: 'translateX(-50%)' }}
+                style={{
+                  height: STEM,
+                  left: sideOffset,
+                  transform: `translateX(-50%) translateY(${above ? -RAISE : RAISE}px)`,
+                }}
               />
 
               {/* Flag card: hover listeners live on the card itself, so only the actual
@@ -126,7 +148,7 @@ const ExperienceTimeline = ({ experience }) => {
                     ? 'w-72 max-h-32 overflow-y-auto p-4 bg-white dark:bg-neutral-900 border-blue-600 shadow-lg z-30'
                     : 'w-32 p-2.5 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:border-blue-400 dark:hover:border-blue-500 shadow-sm z-10'
                 }`}
-                style={{ [above ? 'bottom' : 'top']: STEM + 6 }}
+                style={{ [above ? 'bottom' : 'top']: RAISE + STEM + 6 }}
               >
                 <CardContent item={item} active={active} />
               </button>
