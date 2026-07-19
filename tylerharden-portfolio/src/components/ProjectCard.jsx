@@ -1,37 +1,40 @@
-import React from 'react';
+import { useState } from 'react';
+import Tag from './Tag';
 
 const ProjectCard = ({ project, onClick }) => {
+  const [imgError, setImgError] = useState(false);
+
   return (
-    <div 
+    <div
       onClick={onClick}
-      className="relative h-full min-h-100 bg-white dark:bg-gray-900 rounded-2xl shadow-md overflow-hidden transition-transform transform hover:scale-105 cursor-pointer   hover: transition duration-300 hover:-translate-y-1 hover:scale-105 transform"
+      className="flex flex-col h-full bg-white dark:bg-neutral-900 rounded-2xl shadow-md overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
     >
       {/* Thumbnail */}
-      <div className="relative w-full">
+      {imgError ? (
+        <div className="w-full h-48 flex items-center justify-center bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 text-neutral-400 dark:text-neutral-600 text-3xl font-bold">
+          {project.title.charAt(0)}
+        </div>
+      ) : (
         <img
           src={project.thumbnail}
           alt={project.title}
-          className="w-full h-48 object-cover transition-all duration-700 ease-in-out"
+          onError={() => setImgError(true)}
+          className="w-full h-48 object-cover"
         />
-      </div>
+      )}
 
       {/* Project Details */}
-      <div className="p-6 text-left">
-        <h3 className="text-2xl font-bold mb-2 tracking-tight">{project.title}</h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{project.year}</p>
+      <div className="flex flex-col flex-1 p-6 text-left">
+        <h3 className="text-xl font-bold mb-1 tracking-tight">{project.title}</h3>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">{project.year}</p>
 
         <div className="flex flex-wrap gap-2 mb-4">
           {project.skills.map((skill, index) => (
-            <span
-              key={index}
-              className="bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100 text-xs font-semibold px-3 py-1 rounded-full"
-            >
-              {skill}
-            </span>
+            <Tag key={index}>{skill}</Tag>
           ))}
         </div>
 
-        <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+        <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed mt-auto">
           {project.description}
         </p>
       </div>

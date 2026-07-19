@@ -6,7 +6,6 @@ import projectsData from '../content/projects.json';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { AnimatePresence } from 'framer-motion';
-import SectionTitle from '../components/SectionTitle';
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -52,12 +51,13 @@ const Projects = () => {
   };
 
   return (
-    <div className="">
-      <div className=" ">
+    <div>
+      <div className="projects-carousel pb-10">
         <Slider {...settings}>
           {projectsData.map((project, index) => (
-            <div key={index} className="p-2">
-              <div 
+            <div key={index} className="h-full p-2">
+              <div
+                className="h-full"
                 onMouseDown={handleMouseDown}
                 onMouseUp={(e) => handleMouseUp(e, project)}
               >
