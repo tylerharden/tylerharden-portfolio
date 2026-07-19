@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -6,15 +6,11 @@ import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Resume from './pages/Resume';
 import Music from './pages/Music';
-import SplashScreen from './components/SplashScreen';
 import Section from './components/Section';
-import Auth from './pages/Auth'; // <- import Auth
-
-// import './App.css'
+import Footer from './components/Footer';
+import Auth from './pages/Auth';
 
 function App() {
-  const [splashDone, setSplashDone] = useState(false); // <- has the splash been exited yet?
-
   const aboutRef = useRef(null);
   const projectsRef = useRef(null);
   const contactRef = useRef(null);
@@ -32,17 +28,12 @@ function App() {
   }
 
 
-  const scrollToFirstSection = () => {
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: 'smooth',
-    });
-  };
   const scrollToSection = (ref) => {
-    
-    const offset = 80;
+    if (!ref.current) return;
+    const navHeight = document.querySelector('nav')?.getBoundingClientRect().height ?? 0;
+    const buffer = 16;
     const elementPosition = ref.current.getBoundingClientRect().top + window.scrollY;
-    const offsetPosition = elementPosition - offset;
+    const offsetPosition = elementPosition - navHeight - buffer;
 
     window.scrollTo({
       top: offsetPosition,
@@ -50,64 +41,41 @@ function App() {
     });
   };
 
-  // useEffect(() => {
-  //   if (splashDone) return;
-
-  //   const handleScroll = () => {
-  //     if (window.scrollY > window.innerHeight * 0.2) {
-  //       // if user scrolls down a little bit (20% of the screen height)
-  //       setSplashDone(true);
-  //     }
-  //   };
-
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, [splashDone]);
-
   return (
-    <div className="App bg-gray-100 dark:bg-gray-900">
-      {/* {!splashDone && (
-        <SplashScreen onFinishSplashScreen={() => setSplashDone(true)} />
-      )} */}
+    <div id="top" className="bg-white dark:bg-neutral-950">
+      <Navbar
+        onScrollToSection={{
+          home: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+          about: () => scrollToSection(aboutRef),
+          projects: () => scrollToSection(projectsRef),
+          contact: () => scrollToSection(contactRef),
+          resume: () => scrollToSection(resumeRef),
+          music: () => scrollToSection(musicRef),
+        }}
+      />
+      <Home scrollToAbout={() => scrollToSection(aboutRef)} />
 
-      {/* {splashDone && ( */}
-        <>
-  
-          <Navbar
-            onScrollToSection={{
-              about: () => scrollToSection(aboutRef),
-              projects: () => scrollToSection(projectsRef),
-              contact: () => scrollToSection(contactRef),
-              resume: () => scrollToSection(resumeRef),
-              music: () => scrollToSection(musicRef),
-            }}
-          />
-          <div className="py-2"> 
-            <div ref={aboutRef} className="">
-              <Home scrollToAbout={() => scrollToSection(aboutRef)} />
-            </div>
-            <Section  name="About" reference={aboutRef} fillWhite={true}>
-              <About />
-            </Section>  
+      <Section name="About" reference={aboutRef}>
+        <About />
+      </Section>
 
-            <Section  name="Projects" reference={projectsRef} fillWhite={true}>
-              <Projects />
-            </Section>  
+      <Section name="Projects" reference={projectsRef}>
+        <Projects />
+      </Section>
 
-            <Section  name="Resume" reference={resumeRef} fillWhite={true}>
-              <Resume />
-            </Section>  
+      <Section name="Resume" reference={resumeRef}>
+        <Resume />
+      </Section>
 
-            <Section  name="Music" reference={musicRef} fillWhite={true}>
-              <Music />
-            </Section>  
+      <Section name="Music" reference={musicRef}>
+        <Music />
+      </Section>
 
-            <Section  name="Contact" reference={contactRef} fillWhite={true}>
-              <Contact />
-            </Section>  
-          </div>
-        </>
-      {/* )} */}
+      <Section name="Contact" reference={contactRef}>
+        <Contact />
+      </Section>
+
+      <Footer />
     </div>
   );
 }
