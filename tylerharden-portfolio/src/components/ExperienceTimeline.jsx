@@ -76,21 +76,34 @@ const ExperienceTimeline = ({ experience }) => {
           <div className="mt-1 text-xs font-medium text-blue-600 whitespace-nowrap">Present</div>
         </div>
 
+        {/* Chunks: a bar per role spanning its actual start-end range, instead of a
+            single point at its start date. Rendered directly against the axis
+            container (not nested in the per-item anchor below) so left/width
+            percentages are unambiguous. */}
+        {chronological.map((item) => {
+          const startPct = positionFor(item.startDate);
+          const endPct = item.endDate ? positionFor(item.endDate) : 100;
+          const widthPct = Math.max(endPct - startPct, 1);
+          return (
+            <div
+              key={`bar-${keyFor(item)}`}
+              className="absolute top-1/2 h-2 rounded-full bg-blue-600 border-2 border-white dark:border-neutral-950 z-20 -translate-y-1/2"
+              style={{ left: `${startPct}%`, width: `${widthPct}%` }}
+            />
+          );
+        })}
+
         {chronological.map((item, idx) => {
-          const left = positionFor(item.startDate);
+          const startPct = positionFor(item.startDate);
+          const endPct = item.endDate ? positionFor(item.endDate) : 100;
+          const mid = startPct + Math.max(endPct - startPct, 1) / 2;
           const active = activeKey === keyFor(item);
-          const align = left < 10 ? 'start' : left > 90 ? 'end' : 'center';
+          const align = mid < 10 ? 'start' : mid > 90 ? 'end' : 'center';
           const above = idx % 2 === 0;
           const sideOffset = align === 'start' ? 0 : align === 'end' ? '100%' : '50%';
 
           return (
-            <div key={keyFor(item)} className="absolute top-1/2" style={{ left: `${left}%` }}>
-              {/* Dot: centered exactly on the line regardless of which side the card sits on */}
-              <span
-                className="absolute h-2.5 w-2.5 rounded-full bg-blue-600 z-20"
-                style={{ left: sideOffset, top: 0, transform: 'translate(-50%, -50%)' }}
-              />
-
+            <div key={keyFor(item)} className="absolute top-1/2" style={{ left: `${mid}%` }}>
               {/* Stem: a fixed height that never changes with hover state, so the card's
                   near edge stays put and hovering it can never shift it out from under
                   the cursor (which is what caused the flicker before). */}
