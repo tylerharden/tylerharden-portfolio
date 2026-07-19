@@ -52,61 +52,43 @@ const ExperienceTimeline = ({ experience }) => {
           const left = xFor(idx);
           const active = activeKey === keyFor(item);
           const align = left < 10 ? 'start' : left > 90 ? 'end' : 'center';
-          const cardTranslate = align === 'start' ? '0%' : align === 'end' ? '-100%' : '-50%';
           const above = idx % 2 === 0;
-          const stem = active ? STEM + 20 : STEM;
+          const sideOffset = align === 'start' ? 0 : align === 'end' ? '100%' : '50%';
 
           return (
             <div key={keyFor(item)} className="absolute top-1/2" style={{ left: `${left}%` }}>
-              {/* Stable hover hit-area: fixed size regardless of active state, so growing
-                  the card on hover can never push it out from under the cursor and cause
-                  it to flicker between hover states. */}
+              {/* Dot: centered exactly on the line regardless of which side the card sits on */}
+              <span
+                className="absolute h-2.5 w-2.5 rounded-full bg-blue-600 z-20"
+                style={{ left: sideOffset, top: 0, transform: 'translate(-50%, -50%)' }}
+              />
+
+              {/* Stem: a fixed height that never changes with hover state, so the card's
+                  near edge stays put and hovering it can never shift it out from under
+                  the cursor (which is what caused the flicker before). */}
               <div
-                className="absolute w-72 h-80"
-                style={{
-                  [above ? 'bottom' : 'top']: 0,
-                  transform: `translateX(${cardTranslate})`,
-                }}
+                className={`absolute w-px bg-neutral-300 dark:bg-neutral-700 ${above ? 'bottom-0' : 'top-0'}`}
+                style={{ height: STEM, left: sideOffset, transform: 'translateX(-50%)' }}
+              />
+
+              {/* Flag card: hover listeners live on the card itself, so only the actual
+                  card area (not empty space around it) triggers the expand. */}
+              <button
                 onMouseEnter={() => hover(item)}
                 onMouseLeave={() => unhover(item)}
+                onClick={() => toggle(item)}
+                aria-expanded={active}
+                className={`absolute rounded-lg border text-left transition-all duration-300 ease-out cursor-pointer ${
+                  align === 'start' ? 'left-0' : align === 'end' ? 'right-0' : 'left-1/2 -translate-x-1/2'
+                } ${
+                  active
+                    ? 'w-72 max-h-64 overflow-y-auto p-4 bg-white dark:bg-neutral-900 border-blue-600 shadow-lg z-30'
+                    : 'w-40 p-2.5 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:border-blue-400 dark:hover:border-blue-500 shadow-sm z-10'
+                }`}
+                style={{ [above ? 'bottom' : 'top']: STEM + 6 }}
               >
-                {/* Dot on the line */}
-                <span
-                  className="absolute h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600 z-20"
-                  style={{ left: align === 'start' ? 0 : align === 'end' ? '100%' : '50%', [above ? 'bottom' : 'top']: 0 }}
-                />
-
-                {/* Stem, pointing up or down depending on this item's side */}
-                <div
-                  className={`absolute w-px bg-neutral-300 dark:bg-neutral-700 transition-all duration-300 ${
-                    above ? 'bottom-0' : 'top-0'
-                  }`}
-                  style={{
-                    height: stem,
-                    left: align === 'start' ? 0 : align === 'end' ? '100%' : '50%',
-                    transform: 'translateX(-50%)',
-                  }}
-                />
-
-                {/* Flag card */}
-                <button
-                  onClick={() => toggle(item)}
-                  aria-expanded={active}
-                  className={`absolute rounded-lg border text-left transition-all duration-300 ease-out cursor-pointer ${
-                    active
-                      ? 'w-72 max-h-64 overflow-y-auto p-4 bg-white dark:bg-neutral-900 border-blue-600 shadow-lg z-30'
-                      : 'w-40 p-2.5 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:border-blue-400 dark:hover:border-blue-500 shadow-sm z-10'
-                  }`}
-                  style={{
-                    [above ? 'bottom' : 'top']: stem + 6,
-                    left: align === 'start' ? 0 : align === 'end' ? 'auto' : '50%',
-                    right: align === 'end' ? 0 : 'auto',
-                    transform: align === 'center' ? 'translateX(-50%)' : 'none',
-                  }}
-                >
-                  <CardContent item={item} active={active} />
-                </button>
-              </div>
+                <CardContent item={item} active={active} />
+              </button>
             </div>
           );
         })}
