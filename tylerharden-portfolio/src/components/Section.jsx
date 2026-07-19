@@ -1,21 +1,17 @@
-const Section = ({ name, reference, children, card=false, fillWhite=false}) => {
-    return (
-      <div className={`${fillWhite ? 'bg-white ' : ''}  px-6 pt-6`}>
-        {/* Card Container */}
-        <div ref={reference} className={`${card ? 'bg-white rounded-2xl shadow-md transition-all duration-700 ease-in-out container' : ''} `}>
-          {/* Section Header */}
-          <div className="pb-6">
-            <h1 className="text-4xl font-bold">{name}</h1>
-          </div>
-          {children}
-        </div>
-        {/* <div className="pt-6">
-          <hr class="my-1 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
-        </div> */}
-      </div>
-    );
-  };
-  
-  export default Section;
+import { CONTAINER } from '../lib/layout';
 
-//   bg-gray-50 dark:bg-gray-900
+const Section = ({ name, reference, children }) => {
+  return (
+    <div className="border-t border-neutral-100 dark:border-neutral-900">
+      <div className={`${CONTAINER} py-16 sm:py-24`}>
+        <div ref={reference} className="mb-10 sm:mb-14">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">{name}</h2>
+          <div className="mt-4 h-1 w-10 rounded-full bg-blue-600" />
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default Section;
