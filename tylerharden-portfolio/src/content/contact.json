@@ -1,0 +1,8 @@
+{
+  "intro": "Have a project in mind or just want to say hi? Send me a message.",
+  "socials": [
+    { "label": "Twitter", "url": "https://twitter.com/yourprofile" },
+    { "label": "LinkedIn", "url": "https://linkedin.com/in/yourprofile" },
+    { "label": "GitHub", "url": "https://github.com/yourprofile" }
+  ]
+}

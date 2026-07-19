@@ -1,62 +1,62 @@
-import React from 'react';
+import contactData from '../content/contact.json';
 
 const Contact = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-4xl font-bold mb-4">Contact Me</h1>
-      <form className="w-full max-w-lg">
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="name">
+    <div className="max-w-lg mx-auto">
+      <p className="text-neutral-600 dark:text-neutral-300 mb-8">{contactData.intro}</p>
+
+      <form className="w-full space-y-5">
+        <div>
+          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300" htmlFor="name">
             Name
           </label>
           <input
             type="text"
             id="name"
-            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            className="mt-1 block w-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="email">
+        <div>
+          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300" htmlFor="email">
             Email
           </label>
           <input
             type="email"
             id="email"
-            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            className="mt-1 block w-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="message">
+        <div>
+          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300" htmlFor="message">
             Message
           </label>
           <textarea
             id="message"
-            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            className="mt-1 block w-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
             rows="4"
             required
           ></textarea>
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
+          className="w-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-semibold py-2.5 px-4 rounded-md hover:bg-neutral-700 dark:hover:bg-neutral-200 transition-colors"
         >
           Send Message
         </button>
       </form>
-      <div className="mt-8">
-        <h2 className="text-lg font-semibold">Connect with me:</h2>
-        <div className="flex space-x-4 mt-2">
-          <a href="https://twitter.com/yourprofile" target="_blank" rel="noopener noreferrer">
-            Twitter
-          </a>
-          <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
-            LinkedIn
-          </a>
-          <a href="https://github.com/yourprofile" target="_blank" rel="noopener noreferrer">
-            GitHub
-          </a>
+
+      <div className="mt-10 pt-8 border-t border-neutral-200 dark:border-neutral-800 text-center">
+        <h3 className="text-sm font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-3">
+          Connect with me
+        </h3>
+        <div className="flex justify-center gap-6 text-sm font-medium">
+          {contactData.socials.map((social) => (
+            <a key={social.label} href={social.url} target="_blank" rel="noopener noreferrer">
+              {social.label}
+            </a>
+          ))}
         </div>
       </div>
     </div>
