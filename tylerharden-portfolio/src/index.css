@@ -1,14 +1,7 @@
 @import "tailwindcss";
-
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* AFTER Tailwind imports, you can write your own custom CSS */
-
-:root {
-  --bg-light: #ffffff;
-  --text-light: #00008B;
-  --bg-dark: #00008B;
-  --text-dark: #ffffff;
-}
 
 html {
   scroll-behavior: smooth;
@@ -17,50 +10,22 @@ html {
 body {
   margin: 0;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-light);
-  color: var(--text-light);
+  @apply bg-white text-neutral-700 dark:bg-neutral-950 dark:text-neutral-300;
   transition: background-color 0.3s, color 0.3s;
-}
-
-.dark body {
-  background-color: var(--bg-dark);
-  color: var(--text-dark);
 }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
+  @apply text-neutral-900 dark:text-white;
 }
 
 a {
-  color: #3b82f6;
+  @apply text-blue-600 dark:text-blue-400;
   text-decoration: none;
 }
 
 a:hover {
   text-decoration: underline;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-/* Example of using @apply properly */
-.btn {
-  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
-}
-
-.btn:hover {
-  @apply bg-blue-600;
-}
-
-/* Dark mode for prefers-color-scheme */
-@media (prefers-color-scheme: dark) {
-  :root {
-    background-color: #1f2937;
-    color: #f9fafb;
-  }
 }
 
 /* Override typewriter default cursor */
@@ -78,4 +43,26 @@ a:hover {
   25%, 75% {
     opacity: 0;
   }
+}
+
+/* Restyle slick carousel dots/arrows to match the site's neutral + blue accent palette */
+.projects-carousel .slick-dots li button:before,
+.project-modal-carousel .slick-dots li button:before {
+  font-size: 8px;
+  color: var(--color-neutral-300);
+  opacity: 1;
+}
+.dark .projects-carousel .slick-dots li button:before,
+.dark .project-modal-carousel .slick-dots li button:before {
+  color: var(--color-neutral-700);
+}
+.projects-carousel .slick-dots li.slick-active button:before,
+.project-modal-carousel .slick-dots li.slick-active button:before {
+  color: var(--color-blue-600);
+}
+.projects-carousel .slick-prev:before,
+.projects-carousel .slick-next:before,
+.project-modal-carousel .slick-prev:before,
+.project-modal-carousel .slick-next:before {
+  color: var(--color-neutral-400);
 }
