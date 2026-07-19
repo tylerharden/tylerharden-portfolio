@@ -29,27 +29,55 @@ const ExperienceTimeline = ({ experience }) => {
   // Oldest -> newest, for left-to-right reading on the desktop line.
   const chronological = useMemo(() => [...experience].reverse(), [experience]);
 
-  // Flags are spaced evenly by index rather than strict date-proportion: with only a
-  // handful of roles, proportional spacing clusters adjacent cards close enough to
-  // collide. Each card still shows its real date range, so nothing is lost.
-  const n = chronological.length;
-  const xFor = (idx) => (n <= 1 ? 50 : 6 + (idx / (n - 1)) * 88);
+  // Positions are true date-proportions along the axis, not just evenly spaced by
+  // index, so the tick marks below actually mean something. Adjacent roles alternate
+  // above/below the line, so what matters for collision is the gap between same-side
+  // neighbors (2 apart) - comfortably wide for a real career history.
+  const start = dayjs(`${chronological[0].startDate}-01`).startOf('month');
+  const end = dayjs();
+  const totalMonths = Math.max(end.diff(start, 'month'), 1);
+  const positionFor = (dateStr) => {
+    const d = dayjs(`${dateStr}-01`);
+    return Math.min(100, Math.max(0, (d.diff(start, 'month') / totalMonths) * 100));
+  };
+
+  const years = useMemo(() => {
+    const list = [];
+    let y = start.startOf('year');
+    while (y.year() <= end.year()) {
+      list.push(y);
+      y = y.add(1, 'year');
+    }
+    return list;
+  }, [start, end]);
 
   return (
     <div>
-      {/* Desktop: horizontal line, cards alternate above/below so neighbors never collide */}
+      {/* Desktop: horizontal line with year ticks, cards alternate above/below so
+          neighbors never collide */}
       <div className="hidden md:block relative pt-44 pb-44">
         <div className="absolute left-0 right-0 top-1/2 h-px bg-neutral-200 dark:bg-neutral-800" />
 
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 bg-white dark:bg-neutral-950 pr-2 text-xs text-neutral-400 dark:text-neutral-500">
-          {dayjs(`${chronological[0].startDate}-01`).format('MMM YYYY')}
-        </div>
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 bg-white dark:bg-neutral-950 pl-2 text-xs text-neutral-400 dark:text-neutral-500">
-          Present
+        {years.map((year) => (
+          <div
+            key={year.format('YYYY')}
+            className="absolute top-1/2 -translate-x-1/2"
+            style={{ left: `${(year.diff(start, 'month') / totalMonths) * 100}%` }}
+          >
+            <div className="h-2 w-px -translate-y-1/2 bg-neutral-300 dark:bg-neutral-700" />
+            <div className="mt-1 text-xs text-neutral-400 dark:text-neutral-500 whitespace-nowrap">
+              {year.format('YYYY')}
+            </div>
+          </div>
+        ))}
+
+        <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+          <div className="h-2 w-px bg-blue-600" />
+          <div className="mt-1 text-xs font-medium text-blue-600 whitespace-nowrap">Present</div>
         </div>
 
         {chronological.map((item, idx) => {
-          const left = xFor(idx);
+          const left = positionFor(item.startDate);
           const active = activeKey === keyFor(item);
           const align = left < 10 ? 'start' : left > 90 ? 'end' : 'center';
           const above = idx % 2 === 0;
@@ -83,7 +111,7 @@ const ExperienceTimeline = ({ experience }) => {
                 } ${
                   active
                     ? 'w-72 max-h-32 overflow-y-auto p-4 bg-white dark:bg-neutral-900 border-blue-600 shadow-lg z-30'
-                    : 'w-40 p-2.5 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:border-blue-400 dark:hover:border-blue-500 shadow-sm z-10'
+                    : 'w-32 p-2.5 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:border-blue-400 dark:hover:border-blue-500 shadow-sm z-10'
                 }`}
                 style={{ [above ? 'bottom' : 'top']: STEM + 6 }}
               >
