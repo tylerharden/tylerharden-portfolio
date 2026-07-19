@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import photosData from '../content/photos.json';
+import musicData from '../content/music.json';
 import PhotoCarousel from '../components/PhotoCarousel';
 import Photo from '../components/Photo';
 
@@ -15,8 +16,8 @@ function Music() {
   }, []);
 
   return (
-    <section className="">
-      <div className="mx-auto text-center space-y-16">
+    <section>
+      <div className="space-y-16">
 
         {/* Me Photo + About Text */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">
@@ -29,22 +30,18 @@ function Music() {
             />
           </div>
           <div className="w-full md:w-1/2 text-left flex flex-col justify-center">
-            <p className="text-lg leading-relaxed">
-              I create music under my solo name as well as with my band <strong>daste.</strong>. 
-              Our music blends organic and electronic elements to craft atmospheric, thoughtful soundscapes. 
-              We've toured internationally, released multiple albums, and continue to evolve our sound for audiences around the world.
-            </p>
+            <p className="text-lg leading-relaxed">{musicData.intro}</p>
           </div>
         </div>
 
         {/* YouTube Video + Live Carousel */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">
           {/* YouTube Video */}
-          <div className="w-full md:w-6/9">
-            <div className="relative w-full aspect-[16/9]">
+          <div className="w-full md:w-3/5">
+            <div className="relative w-full aspect-video">
               <iframe
                 className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-md"
-                src="https://www.youtube.com/embed/tS8d4XtT5oM"
+                src={`https://www.youtube.com/embed/${musicData.youtubeId}`}
                 title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -53,14 +50,12 @@ function Music() {
           </div>
 
           {/* Live Photo Carousel */}
-          <div className="w-full md:w-3/8 flex">
-            <div className="w-full flex justify-center items-center">
-              <div className="w-full h-full aspect-square">
+          <div className="w-full md:w-2/5">
+            <div className="w-full aspect-square">
               <PhotoCarousel
                 photos={musicPhotos}
                 changeInterval={5000}
               />
-              </div>
             </div>
           </div>
         </div>
