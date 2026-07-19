@@ -38,7 +38,7 @@ const ExperienceTimeline = ({ experience }) => {
   return (
     <div>
       {/* Desktop: horizontal line, cards alternate above/below so neighbors never collide */}
-      <div className="hidden md:block relative pt-56 pb-56">
+      <div className="hidden md:block relative pt-44 pb-44">
         <div className="absolute left-0 right-0 top-1/2 h-px bg-neutral-200 dark:bg-neutral-800" />
 
         <div className="absolute top-1/2 left-0 -translate-y-1/2 bg-white dark:bg-neutral-950 pr-2 text-xs text-neutral-400 dark:text-neutral-500">
@@ -82,7 +82,7 @@ const ExperienceTimeline = ({ experience }) => {
                   align === 'start' ? 'left-0' : align === 'end' ? 'right-0' : 'left-1/2 -translate-x-1/2'
                 } ${
                   active
-                    ? 'w-72 max-h-64 overflow-y-auto p-4 bg-white dark:bg-neutral-900 border-blue-600 shadow-lg z-30'
+                    ? 'w-72 max-h-32 overflow-y-auto p-4 bg-white dark:bg-neutral-900 border-blue-600 shadow-lg z-30'
                     : 'w-40 p-2.5 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:border-blue-400 dark:hover:border-blue-500 shadow-sm z-10'
                 }`}
                 style={{ [above ? 'bottom' : 'top']: STEM + 6 }}
