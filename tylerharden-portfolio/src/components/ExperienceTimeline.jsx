@@ -115,18 +115,18 @@ const ExperienceTimeline = ({ experience }) => {
           return (
             <div key={`chunk-${keyFor(item)}`}>
               <div
-                className="absolute w-px bg-blue-400 dark:bg-blue-500 z-20"
+                className="absolute w-px bg-neutral-300 dark:bg-neutral-600 z-20"
                 style={{ left: `${startPct}%`, top: '50%', height: RAISE, transform: `translateY(${above ? -RAISE : 0}px)` }}
               />
               <div
-                className="absolute w-px bg-blue-400 dark:bg-blue-500 z-20"
+                className="absolute w-px bg-neutral-300 dark:bg-neutral-600 z-20"
                 style={{ left: `${endPct}%`, top: '50%', height: RAISE, transform: `translateY(${above ? -RAISE : 0}px)` }}
               />
               <div
-                className="absolute h-0.5 rounded-full bg-blue-400 dark:bg-blue-500 z-20"
+                className="absolute h-0.5 rounded-full bg-neutral-300 dark:bg-neutral-600 z-20"
                 style={{
-                  left: `${startPct}%`,
-                  width: `${widthPct}%`,
+                  left: `calc(${startPct}% + 2px)`,
+                  width: `calc(${widthPct}% - 4px)`,
                   top: '50%',
                   transform: `translateY(calc(-50% + ${above ? -RAISE : RAISE}px))`,
                 }}
