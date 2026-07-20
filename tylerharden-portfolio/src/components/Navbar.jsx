@@ -2,6 +2,19 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CONTAINER } from '../lib/layout';
 
+const SunIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+  </svg>
+);
+
+const MoonIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+  </svg>
+);
+
 function Navbar({ onScrollToSection }) {
   const [darkMode, setDarkMode] = useState(
     () =>
@@ -78,9 +91,9 @@ function Navbar({ onScrollToSection }) {
             <button
               onClick={() => setDarkMode(!darkMode)}
               aria-label="Toggle dark mode"
-              className="p-2 rounded-full bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+              className="p-2 rounded-full bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 transition-colors"
             >
-              {darkMode ? '☀️' : '🌙'}
+              {darkMode ? <SunIcon className="h-4 w-4" /> : <MoonIcon className="h-4 w-4" />}
             </button>
           </li>
         </ul>
@@ -125,10 +138,11 @@ function Navbar({ onScrollToSection }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.3, delay: menuItems.length * 0.1 }}
-              className="bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-lg px-6 py-3 rounded-full shadow-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700"
+              className="flex items-center gap-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-lg px-6 py-3 rounded-full shadow-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700"
               onClick={() => setDarkMode(!darkMode)}
             >
-              {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+              {darkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+              {darkMode ? 'Light Mode' : 'Dark Mode'}
             </motion.div>
           </motion.div>
         )}
