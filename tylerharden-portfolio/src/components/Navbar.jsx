@@ -103,6 +103,7 @@ function Navbar({ onScrollToSection }) {
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMenuOpen}
             className="text-2xl leading-none focus:outline-none"
           >
             {isMenuOpen ? '✖️' : '☰'}
@@ -110,40 +111,38 @@ function Navbar({ onScrollToSection }) {
         </div>
       </div>
 
-      {/* Mobile Fullscreen Overlay Menu */}
-      <AnimatePresence>
+      {/* Mobile menu: a native collapse that slides open below the nav row,
+          pushing page content down, instead of a fullscreen overlay. */}
+      <AnimatePresence initial={false}>
         {isMenuOpen && (
           <motion.div
-          className="fixed inset-0 z-40 bg-white/70 dark:bg-neutral-950/80 backdrop-blur-lg flex flex-col items-center justify-center space-y-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+            key="mobile-menu"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="md:hidden overflow-hidden border-t border-neutral-200 dark:border-neutral-800"
           >
-            {menuItems.map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.3, delay: idx * 0.1 }}
-                className="bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-lg px-6 py-3 rounded-full shadow-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700"
-                onClick={() => handleMenuItemClick(item.section)}
-              >
-                {item.label}
-              </motion.div>
-            ))}
-            {/* Dark Mode Button inside Menu */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.3, delay: menuItems.length * 0.1 }}
-              className="flex items-center gap-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white text-lg px-6 py-3 rounded-full shadow-md cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700"
-              onClick={() => setDarkMode(!darkMode)}
-            >
-              {darkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
-              {darkMode ? 'Light Mode' : 'Dark Mode'}
-            </motion.div>
+            <ul className={`${CONTAINER} py-2`}>
+              {menuItems.map((item, idx) => (
+                <li
+                  key={idx}
+                  className="py-3 text-base font-medium text-neutral-700 dark:text-neutral-300 border-b border-neutral-100 dark:border-neutral-900 cursor-pointer"
+                  onClick={() => handleMenuItemClick(item.section)}
+                >
+                  {item.label}
+                </li>
+              ))}
+              <li>
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className="flex items-center gap-2 w-full py-3 text-base font-medium text-neutral-700 dark:text-neutral-300 cursor-pointer"
+                >
+                  {darkMode ? <SunIcon className="h-4 w-4" /> : <MoonIcon className="h-4 w-4" />}
+                  {darkMode ? 'Light Mode' : 'Dark Mode'}
+                </button>
+              </li>
+            </ul>
           </motion.div>
         )}
       </AnimatePresence>
