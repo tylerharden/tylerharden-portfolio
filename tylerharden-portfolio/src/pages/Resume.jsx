@@ -46,8 +46,9 @@ function Resume() {
       )}
 
       {resumeData.education?.length > 0 && (
-        <div className="mt-12">
-          <h3 className="text-2xl font-semibold mb-4">Education</h3>
+        <div className="mt-16 pt-10 border-t border-neutral-200 dark:border-neutral-800">
+          <h3 className="text-2xl font-semibold">Education</h3>
+          <div className="mt-2 mb-6 h-1 w-8 rounded-full bg-blue-600" />
           <ul className="divide-y divide-neutral-200 dark:divide-neutral-800">
             {resumeData.education.map((item, index) => (
               <li key={index} className="py-5 first:pt-0 last:pb-0">
@@ -63,8 +64,9 @@ function Resume() {
       )}
 
       {resumeData.additionalExperience?.length > 0 && (
-        <div className="mt-12">
-          <h3 className="text-2xl font-semibold mb-4">Additional Experience</h3>
+        <div className="mt-16 pt-10 border-t border-neutral-200 dark:border-neutral-800">
+          <h3 className="text-2xl font-semibold">Additional Experience</h3>
+          <div className="mt-2 mb-6 h-1 w-8 rounded-full bg-blue-600" />
           <ul className="divide-y divide-neutral-200 dark:divide-neutral-800">
             {resumeData.additionalExperience.map((item, index) => (
               <li key={index} className="py-5 first:pt-0 last:pb-0">
