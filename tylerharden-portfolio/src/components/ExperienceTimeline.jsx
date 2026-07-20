@@ -110,7 +110,7 @@ const ExperienceTimeline = ({ experience }) => {
               {/* Label: angled to the right, on whichever side (above/below) isn't
                   occupied by an experience bracket at this point on the axis. */}
               <div
-                className="absolute text-[10px] text-neutral-400 dark:text-neutral-500 whitespace-nowrap"
+                className="absolute text-[9px] text-neutral-300 dark:text-neutral-600 whitespace-nowrap"
                 style={{
                   left: 2,
                   [labelAbove ? 'bottom' : 'top']: 10,
