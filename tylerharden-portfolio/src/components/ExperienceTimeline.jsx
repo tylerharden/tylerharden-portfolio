@@ -73,8 +73,8 @@ const ExperienceTimeline = ({ experience }) => {
         ))}
 
         <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-          <div className="h-2 w-px bg-blue-600" />
-          <div className="mt-1 text-xs font-medium text-blue-600 whitespace-nowrap">Present</div>
+          <div className="h-2 w-px bg-blue-500 dark:bg-blue-400" />
+          <div className="mt-1 text-xs font-medium text-blue-500 dark:text-blue-400 whitespace-nowrap">Present</div>
         </div>
 
         {/* Chunks: a bracket per role - two legs dropping to its true start/end dates
@@ -90,15 +90,15 @@ const ExperienceTimeline = ({ experience }) => {
           return (
             <div key={`chunk-${keyFor(item)}`}>
               <div
-                className="absolute w-px bg-blue-600 z-20"
+                className="absolute w-px bg-blue-400 dark:bg-blue-500 z-20"
                 style={{ left: `${startPct}%`, top: '50%', height: RAISE, transform: `translateY(${above ? -RAISE : 0}px)` }}
               />
               <div
-                className="absolute w-px bg-blue-600 z-20"
+                className="absolute w-px bg-blue-400 dark:bg-blue-500 z-20"
                 style={{ left: `${endPct}%`, top: '50%', height: RAISE, transform: `translateY(${above ? -RAISE : 0}px)` }}
               />
               <div
-                className="absolute h-0.5 rounded-full bg-blue-600 z-20"
+                className="absolute h-0.5 rounded-full bg-blue-400 dark:bg-blue-500 z-20"
                 style={{
                   left: `${startPct}%`,
                   width: `${widthPct}%`,
@@ -145,8 +145,8 @@ const ExperienceTimeline = ({ experience }) => {
                   align === 'start' ? 'left-0' : align === 'end' ? 'right-0' : 'left-1/2 -translate-x-1/2'
                 } ${
                   active
-                    ? 'w-72 max-h-32 overflow-y-auto p-4 bg-white dark:bg-neutral-900 border-blue-600 shadow-lg z-30'
-                    : 'w-32 p-2.5 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:border-blue-400 dark:hover:border-blue-500 shadow-sm z-10'
+                    ? 'w-72 max-h-96 overflow-y-auto p-4 bg-white dark:bg-neutral-900 border-blue-400 dark:border-blue-500 shadow-lg z-30'
+                    : 'w-32 p-2.5 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:border-blue-300 dark:hover:border-blue-600 shadow-sm z-10'
                 }`}
                 style={{ [above ? 'bottom' : 'top']: RAISE + STEM + 6 }}
               >
@@ -166,14 +166,14 @@ const ExperienceTimeline = ({ experience }) => {
             const onLeft = idx % 2 === 0;
             return (
               <li key={keyFor(item)} className="relative">
-                <span className="absolute left-1/2 top-4 -translate-x-1/2 h-2.5 w-2.5 rounded-full bg-blue-600 z-10" />
+                <span className="absolute left-1/2 top-4 -translate-x-1/2 h-2.5 w-2.5 rounded-full bg-blue-400 dark:bg-blue-500 z-10" />
                 <div className={`w-[46%] ${onLeft ? 'mr-auto' : 'ml-auto'}`}>
                   <button
                     onClick={() => toggle(item)}
                     aria-expanded={active}
                     className={`w-full text-left rounded-lg border p-2.5 transition-colors cursor-pointer ${
                       active
-                        ? 'border-blue-600 bg-white dark:bg-neutral-900 shadow-md'
+                        ? 'border-blue-400 dark:border-blue-500 bg-white dark:bg-neutral-900 shadow-md'
                         : 'border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900'
                     }`}
                   >
