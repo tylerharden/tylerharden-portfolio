@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 
-const keyFor = (item) => `${item.startDate}-${item.title}`;
+const keyFor = (item) => `${item.startDate}-${item.position}`;
 const STEM = 28;
 const RAISE = 12;
 // Deliberate visible gap between the axis line and each bracket leg, so the chunk
@@ -11,9 +11,10 @@ const GAP = 4;
 const CardContent = ({ item, active }) => (
   <>
     <h4 className={`font-semibold text-xs text-neutral-900 dark:text-white ${active ? '' : 'line-clamp-2'}`}>
-      {item.title}
+      {item.position}
     </h4>
-    <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-1">{item.stringDate}</p>
+    <p className="text-[10px] text-neutral-500 dark:text-neutral-400">{item.team}</p>
+    <p className="text-[10px] text-neutral-400 dark:text-neutral-500 mt-1">{item.stringDate}</p>
     <div
       className={`overflow-hidden transition-all duration-300 ${
         active ? 'max-h-40 opacity-100 mt-2' : 'max-h-0 opacity-0'

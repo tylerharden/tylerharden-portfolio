@@ -5,42 +5,48 @@
         "stringDate": "December 2024 – Current",
         "startDate": "2024-12",
         "endDate": null,
-        "title": "Product & Innovation – Product Specialist / Developer",
+        "position": "Product Specialist / Developer",
+        "team": "Product & Innovation",
         "description": "Led UX/UI design, wireframing, and customer engagement for transitioning software into a SaaS portal. Performed data analytics using Python to identify customer segments and uncover key insights from meter data. Developed the InfoDynamics Renew project, integrating billing functionality leveraging GraphQL through Hasura."
       },
       {
         "stringDate": "March 2024 – November 2024",
         "startDate": "2024-03",
         "endDate": "2024-11",
-        "title": "Product & Innovation – Product Data Scientist",
+        "position": "Product Data Scientist",
+        "team": "Product & Innovation",
         "description": "Delivered a data analytics report using Python to prove a hypothesis about inrush current and outage duration. Developed the GeoAlarms product concept and backend with Python and Kafka through collaboration with an Australian Distribution Network Service Provider (DNSP)."
       },
       {
         "stringDate": "August 2023 – February 2024",
         "startDate": "2023-08",
         "endDate": "2024-02",
-        "title": "Product & Innovation – Product Specialist / Developer",
+        "position": "Product Specialist / Developer",
+        "team": "Product & Innovation",
         "description": "Key contributor to prototype development of GeoAlarms using Python & Kafka. Developed proof-of-concept API-based load management interfaces for load control products using React/JavaScript. Created software with Python to retrieve FCAS data from Kafka and output CSVs."
       },
       {
         "stringDate": "February 2023 – August 2023",
         "startDate": "2023-02",
         "endDate": "2023-08",
-        "title": "Emerging Technologies – 3D Modelling Artist/Sound Designer",
+        "position": "3D Modelling Artist/Sound Designer",
+        "team": "Emerging Technologies",
         "description": "Contributed to the development of a Unity mobile game for electrical safety awareness. Created 3D models using Blender and textures with Adobe Substance 3D. Scripted game functionality using C# and integrated with Unity game objects."
       },
       {
         "stringDate": "August 2022 – February 2023",
         "startDate": "2022-08",
         "endDate": "2023-02",
-        "title": "Mobile Applications Platform – Junior Application Developer",
+        "position": "Junior Application Developer",
+        "team": "Mobile Applications Platform",
         "description": "Contributed to a major update for the iOS enterprise application HazChat. Developed using Swift and SwiftUI, created a local app database with SQLite, and integrated cloud services in AWS."
       },
       {
         "stringDate": "February 2022 – August 2022",
         "startDate": "2022-02",
         "endDate": "2022-08",
-        "title": "Data Science – Data Science Specialist",
+        "position": "Data Science Specialist",
+        "team": "Data Science",
         "description": "Contributed to the development of the Meter Data Analytics solution in Databricks using Python and PySpark. Produced an inference pipeline for machine learning models using MLflow. Created dashboards and visualizations to show customer segment breakdowns."
       }
     ],
