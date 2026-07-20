@@ -10,14 +10,18 @@ import Section from './components/Section';
 import Footer from './components/Footer';
 import Auth from './pages/Auth';
 
+// Gate the whole site behind the password screen in Auth.jsx. Off by default -
+// flip to true to lock the site back down.
+const SITE_LOCKED = false;
+
 function App() {
   const aboutRef = useRef(null);
   const projectsRef = useRef(null);
   const contactRef = useRef(null);
   const resumeRef = useRef(null);
   const musicRef = useRef(null);
-  
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(!SITE_LOCKED);
 
   const handleAuthSuccess = () => {
     setIsAuthenticated(true);
