@@ -10,16 +10,16 @@ const GAP = 4;
 
 const CardContent = ({ item, active }) => (
   <>
-    <h4 className={`font-semibold text-neutral-900 dark:text-white ${active ? 'text-sm' : 'text-xs line-clamp-2'}`}>
+    <h4 className={`font-semibold text-xs text-neutral-900 dark:text-white ${active ? '' : 'line-clamp-2'}`}>
       {item.title}
     </h4>
-    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-1">{item.stringDate}</p>
+    <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-1">{item.stringDate}</p>
     <div
       className={`overflow-hidden transition-all duration-300 ${
         active ? 'max-h-40 opacity-100 mt-2' : 'max-h-0 opacity-0'
       }`}
     >
-      <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.description}</p>
+      <p className="text-[11px] text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.description}</p>
     </div>
   </>
 );
@@ -136,10 +136,10 @@ const ExperienceTimeline = ({ experience }) => {
                 }}
               />
               <div
-                className="absolute h-0.5 rounded-full bg-neutral-300 dark:bg-neutral-600 z-20"
+                className="absolute h-px bg-neutral-300 dark:bg-neutral-600 z-20"
                 style={{
-                  left: `calc(${startPct}% + 2px)`,
-                  width: `calc(${widthPct}% - 4px)`,
+                  left: `${startPct}%`,
+                  width: `${widthPct}%`,
                   top: '50%',
                   transform: `translateY(calc(-50% + ${above ? -RAISE : RAISE}px))`,
                 }}
@@ -153,9 +153,7 @@ const ExperienceTimeline = ({ experience }) => {
           const endPct = item.endDate ? positionFor(item.endDate) : 100;
           const mid = startPct + Math.max(endPct - startPct, 1) / 2;
           const active = activeKey === keyFor(item);
-          const align = mid < 10 ? 'start' : mid > 90 ? 'end' : 'center';
           const above = idx % 2 === 0;
-          const sideOffset = align === 'start' ? 0 : align === 'end' ? '100%' : '50%';
 
           return (
             <div key={keyFor(item)} className="absolute top-1/2" style={{ left: `${mid}%` }}>
@@ -167,24 +165,22 @@ const ExperienceTimeline = ({ experience }) => {
                 className={`absolute w-px bg-neutral-300 dark:bg-neutral-700 ${above ? 'bottom-0' : 'top-0'}`}
                 style={{
                   height: STEM,
-                  left: sideOffset,
+                  left: '50%',
                   transform: `translateX(-50%) translateY(${above ? -RAISE : RAISE}px)`,
                 }}
               />
 
-              {/* Flag card: hover listeners live on the card itself, so only the actual
-                  card area (not empty space around it) triggers the expand. */}
+              {/* Flag: hover listeners live on it directly, so only the actual text
+                  area (not empty space around it) triggers the expand. No card
+                  background/border - just the text, growing in place on hover.
+                  Always centered on its point, same as every other item. */}
               <button
                 onMouseEnter={() => hover(item)}
                 onMouseLeave={() => unhover(item)}
                 onClick={() => toggle(item)}
                 aria-expanded={active}
-                className={`absolute rounded-lg border text-left transition-all duration-300 ease-out cursor-pointer ${
-                  align === 'start' ? 'left-0' : align === 'end' ? 'right-0' : 'left-1/2 -translate-x-1/2'
-                } ${
-                  active
-                    ? 'w-72 max-h-96 overflow-y-auto p-4 bg-white dark:bg-neutral-900 border-blue-400 dark:border-blue-500 shadow-lg z-30'
-                    : 'w-32 p-2.5 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 hover:border-blue-300 dark:hover:border-blue-600 shadow-sm z-10'
+                className={`absolute left-1/2 -translate-x-1/2 text-center transition-all duration-300 ease-out cursor-pointer ${
+                  active ? 'w-72 max-h-96 overflow-y-auto p-2 z-30' : 'w-32 p-1 z-10'
                 }`}
                 style={{ [above ? 'bottom' : 'top']: RAISE + STEM + 6 }}
               >
@@ -209,11 +205,7 @@ const ExperienceTimeline = ({ experience }) => {
                   <button
                     onClick={() => toggle(item)}
                     aria-expanded={active}
-                    className={`w-full text-left rounded-lg border p-2.5 transition-colors cursor-pointer ${
-                      active
-                        ? 'border-blue-400 dark:border-blue-500 bg-white dark:bg-neutral-900 shadow-md'
-                        : 'border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900'
-                    }`}
+                    className="w-full text-left p-2.5 transition-colors cursor-pointer"
                   >
                     <CardContent item={item} active={active} />
                   </button>
