@@ -59,17 +59,17 @@ const ExperienceTimeline = ({ experience }) => {
   };
 
   // Year ticks plus "Present" at the very end, unified into one list so both
-  // render through the exact same tick/label markup instead of Present being a
-  // one-off styled separately.
+  // render through the exact same tick/label markup - including color, so
+  // Present is just another grey tick rather than a special accent.
   const axisTicks = useMemo(() => {
     const list = [];
     let y = start.startOf('year');
     while (y.year() <= end.year()) {
       const pct = Math.max((y.diff(start, 'month') / totalMonths) * 100, 0);
-      list.push({ key: y.format('YYYY'), label: y.format('YYYY'), pct, accent: false });
+      list.push({ key: y.format('YYYY'), label: y.format('YYYY'), pct });
       y = y.add(1, 'year');
     }
-    list.push({ key: 'present', label: 'Present', pct: 100, accent: true });
+    list.push({ key: 'present', label: 'Present', pct: 100 });
     return list;
   }, [start, end, totalMonths]);
 
@@ -91,7 +91,7 @@ const ExperienceTimeline = ({ experience }) => {
       {/* Desktop: horizontal line with year ticks, cards alternate above/below so
           neighbors never collide */}
       <div className="hidden md:block relative pt-48 pb-48">
-        <div className="absolute left-0 right-0 top-1/2 h-px bg-neutral-200 dark:bg-neutral-800" />
+        <div className="absolute left-0 right-0 top-1/2 h-px bg-neutral-400 dark:bg-neutral-800" />
 
         {months.map((month) => (
           <div
@@ -101,7 +101,7 @@ const ExperienceTimeline = ({ experience }) => {
           />
         ))}
 
-        {axisTicks.map(({ key, label, pct, accent }) => {
+        {axisTicks.map(({ key, label, pct }) => {
           const labelAbove = freeSideAt(pct) === 'above';
           return (
             <div key={key} className="absolute top-1/2" style={{ left: `${pct}%` }}>
@@ -109,19 +109,13 @@ const ExperienceTimeline = ({ experience }) => {
                   label's wider footprint can't drag the tick itself away from its
                   true date position. */}
               <div
-                className={`absolute w-px -translate-x-1/2 ${
-                  accent ? 'bg-blue-500 dark:bg-blue-400' : 'bg-neutral-300 dark:bg-neutral-700'
-                }`}
+                className="absolute w-px -translate-x-1/2 bg-neutral-300 dark:bg-neutral-700"
                 style={{ height: 8, transform: `translateX(-50%) translateY(${labelAbove ? '-100%' : '0'})` }}
               />
               {/* Label: flat, on whichever side (above/below) isn't occupied by an
                   experience bracket at this point on the axis. */}
               <div
-                className={`absolute -translate-x-1/2 text-[9px] whitespace-nowrap ${
-                  accent
-                    ? 'font-medium text-blue-500 dark:text-blue-400'
-                    : 'text-neutral-300 dark:text-neutral-600'
-                }`}
+                className="absolute -translate-x-1/2 text-[9px] whitespace-nowrap text-neutral-300 dark:text-neutral-600"
                 style={{ [labelAbove ? 'bottom' : 'top']: 10 }}
               >
                 {label}
