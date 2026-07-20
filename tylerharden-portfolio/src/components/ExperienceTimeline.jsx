@@ -4,6 +4,9 @@ import dayjs from 'dayjs';
 const keyFor = (item) => `${item.startDate}-${item.title}`;
 const STEM = 28;
 const RAISE = 12;
+// Deliberate visible gap between the axis line and each bracket leg, so the chunk
+// reads as clearly separate from the timeline rather than sitting on it.
+const GAP = 4;
 
 const CardContent = ({ item, active }) => (
   <>
@@ -116,11 +119,21 @@ const ExperienceTimeline = ({ experience }) => {
             <div key={`chunk-${keyFor(item)}`}>
               <div
                 className="absolute w-px bg-neutral-300 dark:bg-neutral-600 z-20"
-                style={{ left: `${startPct}%`, top: '50%', height: RAISE, transform: `translateY(${above ? -RAISE : 0}px)` }}
+                style={{
+                  left: `${startPct}%`,
+                  top: '50%',
+                  height: Math.max(RAISE - GAP, 1),
+                  transform: `translateY(${above ? -RAISE : GAP}px)`,
+                }}
               />
               <div
                 className="absolute w-px bg-neutral-300 dark:bg-neutral-600 z-20"
-                style={{ left: `${endPct}%`, top: '50%', height: RAISE, transform: `translateY(${above ? -RAISE : 0}px)` }}
+                style={{
+                  left: `${endPct}%`,
+                  top: '50%',
+                  height: Math.max(RAISE - GAP, 1),
+                  transform: `translateY(${above ? -RAISE : GAP}px)`,
+                }}
               />
               <div
                 className="absolute h-0.5 rounded-full bg-neutral-300 dark:bg-neutral-600 z-20"
