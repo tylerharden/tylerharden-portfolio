@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function PhotoCarousel({ photos, changeInterval = 4000, lockAspectRatio = false, aspectRatio = '16/9' }) {
+function PhotoCarousel({ photos, changeInterval = 4000 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
