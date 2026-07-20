@@ -52,12 +52,33 @@ const ExperienceTimeline = ({ experience }) => {
     return list;
   }, [start, end]);
 
+  // Unlabeled ticks for every month in between, so the axis reads as a ruler rather
+  // than just a handful of year marks with empty space between them. January is
+  // skipped since the taller, labeled year tick already marks that spot.
+  const months = useMemo(() => {
+    const list = [];
+    let m = start;
+    while (m.isBefore(end) || m.isSame(end, 'month')) {
+      if (m.month() !== 0) list.push(m);
+      m = m.add(1, 'month');
+    }
+    return list;
+  }, [start, end]);
+
   return (
     <div>
       {/* Desktop: horizontal line with year ticks, cards alternate above/below so
           neighbors never collide */}
       <div className="hidden md:block relative pt-48 pb-48">
         <div className="absolute left-0 right-0 top-1/2 h-px bg-neutral-200 dark:bg-neutral-800" />
+
+        {months.map((month) => (
+          <div
+            key={month.format('YYYY-MM')}
+            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 h-1 w-px bg-neutral-200 dark:bg-neutral-800"
+            style={{ left: `${(month.diff(start, 'month') / totalMonths) * 100}%` }}
+          />
+        ))}
 
         {years.map((year) => (
           <div
