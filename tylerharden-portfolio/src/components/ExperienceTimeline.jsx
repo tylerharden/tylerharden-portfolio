@@ -45,6 +45,18 @@ const ExperienceTimeline = ({ experience }) => {
     return Math.min(100, Math.max(0, (d.diff(start, 'month') / totalMonths) * 100));
   };
 
+  // Whichever side (above/below) the role covering this point puts its bracket on,
+  // the year label goes on the other side so it never lands on top of a chunk.
+  const freeSideAt = (pct) => {
+    const idx = chronological.findIndex((it) => {
+      const s = positionFor(it.startDate);
+      const e = it.endDate ? positionFor(it.endDate) : 100;
+      return pct >= s && pct <= e;
+    });
+    if (idx === -1) return 'below';
+    return idx % 2 === 0 ? 'below' : 'above';
+  };
+
   const years = useMemo(() => {
     const list = [];
     let y = start.startOf('year');
@@ -83,22 +95,34 @@ const ExperienceTimeline = ({ experience }) => {
           />
         ))}
 
-        {years.map((year) => (
-          <div
-            key={year.format('YYYY')}
-            className="absolute top-1/2"
-            style={{ left: `${Math.max((year.diff(start, 'month') / totalMonths) * 100, 0)}%` }}
-          >
-            {/* Each child centers on its own width independently - sharing one
-                translate-x-1/2 on the wrapper would center the whole tick+label
-                group by the label's (much wider) width, dragging the tick mark
-                itself away from its true position. */}
-            <div className="h-2 w-px -translate-x-1/2 -translate-y-1/2 bg-neutral-300 dark:bg-neutral-700" />
-            <div className="mt-1 -translate-x-1/2 text-xs text-neutral-400 dark:text-neutral-500 whitespace-nowrap">
-              {year.format('YYYY')}
+        {years.map((year) => {
+          const pct = Math.max((year.diff(start, 'month') / totalMonths) * 100, 0);
+          const labelAbove = freeSideAt(pct) === 'above';
+          return (
+            <div key={year.format('YYYY')} className="absolute top-1/2" style={{ left: `${pct}%` }}>
+              {/* Tick centers on its own width independently of the label, so the
+                  label's rotated, much wider footprint can't drag the tick itself
+                  away from its true date position. */}
+              <div
+                className="absolute w-px -translate-x-1/2 bg-neutral-300 dark:bg-neutral-700"
+                style={{ height: 8, transform: `translateX(-50%) translateY(${labelAbove ? '-100%' : '0'})` }}
+              />
+              {/* Label: angled to the right, on whichever side (above/below) isn't
+                  occupied by an experience bracket at this point on the axis. */}
+              <div
+                className="absolute text-[10px] text-neutral-400 dark:text-neutral-500 whitespace-nowrap"
+                style={{
+                  left: 2,
+                  [labelAbove ? 'bottom' : 'top']: 10,
+                  transform: `rotate(${labelAbove ? -30 : 30}deg)`,
+                  transformOrigin: labelAbove ? 'bottom left' : 'top left',
+                }}
+              >
+                {year.format('YYYY')}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
           <div className="h-2 w-px bg-blue-500 dark:bg-blue-400" />
