@@ -57,15 +57,20 @@ const ExperienceTimeline = ({ experience }) => {
     return idx % 2 === 0 ? 'below' : 'above';
   };
 
-  const years = useMemo(() => {
+  // Year ticks plus "Present" at the very end, unified into one list so both
+  // render through the exact same tick/label markup instead of Present being a
+  // one-off styled separately.
+  const axisTicks = useMemo(() => {
     const list = [];
     let y = start.startOf('year');
     while (y.year() <= end.year()) {
-      list.push(y);
+      const pct = Math.max((y.diff(start, 'month') / totalMonths) * 100, 0);
+      list.push({ key: y.format('YYYY'), label: y.format('YYYY'), pct, accent: false });
       y = y.add(1, 'year');
     }
+    list.push({ key: 'present', label: 'Present', pct: 100, accent: true });
     return list;
-  }, [start, end]);
+  }, [start, end, totalMonths]);
 
   // Unlabeled ticks for every month in between, so the axis reads as a ruler rather
   // than just a handful of year marks with empty space between them. January is
@@ -95,39 +100,34 @@ const ExperienceTimeline = ({ experience }) => {
           />
         ))}
 
-        {years.map((year) => {
-          const pct = Math.max((year.diff(start, 'month') / totalMonths) * 100, 0);
+        {axisTicks.map(({ key, label, pct, accent }) => {
           const labelAbove = freeSideAt(pct) === 'above';
           return (
-            <div key={year.format('YYYY')} className="absolute top-1/2" style={{ left: `${pct}%` }}>
+            <div key={key} className="absolute top-1/2" style={{ left: `${pct}%` }}>
               {/* Tick centers on its own width independently of the label, so the
-                  label's rotated, much wider footprint can't drag the tick itself
-                  away from its true date position. */}
+                  label's wider footprint can't drag the tick itself away from its
+                  true date position. */}
               <div
-                className="absolute w-px -translate-x-1/2 bg-neutral-300 dark:bg-neutral-700"
+                className={`absolute w-px -translate-x-1/2 ${
+                  accent ? 'bg-blue-500 dark:bg-blue-400' : 'bg-neutral-300 dark:bg-neutral-700'
+                }`}
                 style={{ height: 8, transform: `translateX(-50%) translateY(${labelAbove ? '-100%' : '0'})` }}
               />
-              {/* Label: angled to the right, on whichever side (above/below) isn't
-                  occupied by an experience bracket at this point on the axis. */}
+              {/* Label: flat, on whichever side (above/below) isn't occupied by an
+                  experience bracket at this point on the axis. */}
               <div
-                className="absolute text-[9px] text-neutral-300 dark:text-neutral-600 whitespace-nowrap"
-                style={{
-                  left: 2,
-                  [labelAbove ? 'bottom' : 'top']: 10,
-                  transform: `rotate(${labelAbove ? -30 : 30}deg)`,
-                  transformOrigin: labelAbove ? 'bottom left' : 'top left',
-                }}
+                className={`absolute -translate-x-1/2 text-[9px] whitespace-nowrap ${
+                  accent
+                    ? 'font-medium text-blue-500 dark:text-blue-400'
+                    : 'text-neutral-300 dark:text-neutral-600'
+                }`}
+                style={{ [labelAbove ? 'bottom' : 'top']: 10 }}
               >
-                {year.format('YYYY')}
+                {label}
               </div>
             </div>
           );
         })}
-
-        <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-          <div className="h-2 w-px bg-blue-500 dark:bg-blue-400" />
-          <div className="mt-1 text-xs font-medium text-blue-500 dark:text-blue-400 whitespace-nowrap">Present</div>
-        </div>
 
         {/* Chunks: a bracket per role - two legs dropping to its true start/end dates
             on the axis, joined by a bar raised off the line (up for 'above' roles,
