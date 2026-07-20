@@ -25,8 +25,9 @@ const ProjectCard = ({ project, onClick }) => {
 
       {/* Project Details */}
       <div className="flex flex-col flex-1 p-6 text-left">
-        <h3 className="text-xl font-bold mb-1 tracking-tight">{project.title}</h3>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">{project.year}</p>
+        <h3 className="text-xl font-bold tracking-tight">{project.title}</h3>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">{project.subtitle}</p>
+        <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-4 mt-1">{project.year}</p>
 
         <div className="flex flex-wrap gap-2 mb-4">
           {project.skills.map((skill, index) => (

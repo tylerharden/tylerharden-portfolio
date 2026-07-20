@@ -3,7 +3,7 @@ import contactData from '../content/contact.json';
 const Contact = () => {
   return (
     <div className="max-w-lg mx-auto">
-      <p className="text-neutral-600 dark:text-neutral-300 mb-8">{contactData.intro}</p>
+      <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-300 mb-8">{contactData.intro}</p>
 
       <form className="w-full space-y-5">
         <div>

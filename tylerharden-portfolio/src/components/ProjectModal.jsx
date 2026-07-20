@@ -79,16 +79,15 @@ const ProjectModal = ({ project, onClose }) => {
         )}
 
         {/* Project Details */}
-        <h2 className="text-3xl font-bold mb-2">{project.title}</h2>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">{project.year}</p>
+        <h2 className="text-3xl font-bold tracking-tight">{project.title}</h2>
+        <p className="text-base text-neutral-500 dark:text-neutral-400 mt-1">{project.subtitle}</p>
+        <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-4 mt-1">{project.year}</p>
 
         <div className="flex flex-wrap gap-2 mb-4">
           {project.skills.map((skill, idx) => (
             <Tag key={idx}>{skill}</Tag>
           ))}
         </div>
-
-        <h3 className="text-lg font-semibold mb-2">{project.subtitle}</h3>
 
         <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">
           {project.fullDescription}

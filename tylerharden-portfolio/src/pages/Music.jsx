@@ -35,27 +35,30 @@ function Music() {
         </div>
 
         {/* YouTube Video + Live Carousel */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-          {/* YouTube Video */}
-          <div className="w-full md:w-3/5">
-            <div className="relative w-full aspect-video">
-              <iframe
-                className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-md"
-                src={`https://www.youtube.com/embed/${musicData.youtubeId}`}
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+        <div>
+          <h3 className="text-2xl font-semibold mb-6">Live</h3>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+            {/* YouTube Video */}
+            <div className="w-full md:w-3/5">
+              <div className="relative w-full aspect-video">
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-md"
+                  src={`https://www.youtube.com/embed/${musicData.youtubeId}`}
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
             </div>
-          </div>
 
-          {/* Live Photo Carousel */}
-          <div className="w-full md:w-2/5">
-            <div className="w-full aspect-square">
-              <PhotoCarousel
-                photos={musicPhotos}
-                changeInterval={5000}
-              />
+            {/* Live Photo Carousel */}
+            <div className="w-full md:w-2/5">
+              <div className="w-full aspect-square">
+                <PhotoCarousel
+                  photos={musicPhotos}
+                  changeInterval={5000}
+                />
+              </div>
             </div>
           </div>
         </div>
