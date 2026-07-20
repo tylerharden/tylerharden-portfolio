@@ -83,11 +83,15 @@ const ExperienceTimeline = ({ experience }) => {
         {years.map((year) => (
           <div
             key={year.format('YYYY')}
-            className="absolute top-1/2 -translate-x-1/2"
-            style={{ left: `${(year.diff(start, 'month') / totalMonths) * 100}%` }}
+            className="absolute top-1/2"
+            style={{ left: `${Math.max((year.diff(start, 'month') / totalMonths) * 100, 0)}%` }}
           >
-            <div className="h-2 w-px -translate-y-1/2 bg-neutral-300 dark:bg-neutral-700" />
-            <div className="mt-1 text-xs text-neutral-400 dark:text-neutral-500 whitespace-nowrap">
+            {/* Each child centers on its own width independently - sharing one
+                translate-x-1/2 on the wrapper would center the whole tick+label
+                group by the label's (much wider) width, dragging the tick mark
+                itself away from its true position. */}
+            <div className="h-2 w-px -translate-x-1/2 -translate-y-1/2 bg-neutral-300 dark:bg-neutral-700" />
+            <div className="mt-1 -translate-x-1/2 text-xs text-neutral-400 dark:text-neutral-500 whitespace-nowrap">
               {year.format('YYYY')}
             </div>
           </div>
