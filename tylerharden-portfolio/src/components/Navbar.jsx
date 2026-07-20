@@ -59,7 +59,7 @@ function Navbar({ onScrollToSection }) {
     { label: 'Home', section: 'home' },
     { label: 'About', section: 'about' },
     { label: 'Projects', section: 'projects' },
-    { label: 'Resume', section: 'resume' },
+    { label: 'Experience', section: 'resume' },
     { label: 'Music', section: 'music' },
     { label: 'Contact', section: 'contact' },
   ];

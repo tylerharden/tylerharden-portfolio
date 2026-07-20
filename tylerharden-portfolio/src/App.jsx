@@ -67,7 +67,7 @@ function App() {
         <Projects />
       </Section>
 
-      <Section name="Resume" reference={resumeRef}>
+      <Section name="Experience" reference={resumeRef}>
         <Resume />
       </Section>
 
